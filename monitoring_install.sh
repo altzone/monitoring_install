@@ -1,4 +1,6 @@
 #!/bin/bash
+api_path="/usr/local/share"
+
 if [ ! $# == 1 ]; then
   echo
   echo " Le script requiere un agrument:"
@@ -11,23 +13,29 @@ if [ ! $# == 1 ]; then
   echo
   exit
 fi
-
+echo     "Installation des agents sur le serveur"
+echo     "--------------------------------------"
+echo	 ""
 read -p  "Voulez-vous installez observium sur :  $1 [y/n] [y] " inst_obs
 case $inst_obs in
-        [Yy]* ) scp /usr/local/share/observium_tmp/obs_inst.sh $1:/tmp/ && scp /usr/local/share/observium_tmp/observium_inst.tgz $1:/tmp/ && ssh $1 /tmp/obs_inst.sh ;;
+        [Yy]* ) scp $api_path/observium_tmp/obs_inst.sh $1:/tmp/ && scp $api_path/observium_tmp/observium_inst.tgz $1:/tmp/ && ssh $1 /tmp/obs_inst.sh ;;
         [Nn]* ) ;;
-        * ) scp /usr/local/share/observium_tmp/obs_inst.sh $1:/tmp/ && scp /usr/local/share/observium_tmp/observium_inst.tgz $1:/tmp/ && ssh $1 /tmp/obs_inst.sh ;;
+        * ) scp $api_path/observium_tmp/obs_inst.sh $1:/tmp/ && scp $api_path/observium_tmp/observium_inst.tgz $1:/tmp/ && ssh $1 /tmp/obs_inst.sh ;;
 esac
 
 echo
 read -p "Voulez-vous installez la supervision sur :  $1 [y/n] [y] " inst_sup
 case $inst_sup in
-        [Yy]* ) scp /usr/local/share/nrpe_tmp/nrpe_inst.sh $1:/tmp/ && scp /usr/local/share/nrpe_tmp/nrpe_inst.tgz $1:/tmp/ && ssh $1 /tmp/nrpe_inst.sh ;;
+        [Yy]* ) scp $api_path/nrpe_tmp/nrpe_inst.sh $1:/tmp/ && scp $api_path/nrpe_tmp/nrpe_inst.tgz $1:/tmp/ && ssh $1 /tmp/nrpe_inst.sh ;;
         [Nn]* ) ;;
-        * ) scp /usr/local/share/nrpe_tmp/nrpe_inst.sh $1:/tmp/ && scp /usr/local/share/nrpe_tmp/nrpe_inst.tgz $1:/tmp/ && ssh $1 /tmp/nrpe_inst.sh ;;
+        * ) scp $api_path/nrpe_tmp/nrpe_inst.sh $1:/tmp/ && scp $api_path/nrpe_tmp/nrpe_inst.tgz $1:/tmp/ && ssh $1 /tmp/nrpe_inst.sh ;;
 esac
 
 echo
+
+echo     "Ajout du serveur dans la Supervision"
+echo     "------------------------------------"
+echo     ""
 read -p  "Voulez-vous superviser le serveur? [y/n] [y] " supervise
 case $supervise in
         [Yy]* ) super=1;;
